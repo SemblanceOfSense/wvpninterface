@@ -5,12 +5,28 @@ import (
 	"log"
 	"net/http"
 	"vpninterface/internal/addpeer"
+	"vpninterface/internal/getprivkey"
+	"vpninterface/internal/requesthandler"
 )
 
 func (h HelloHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
     switch r.URL.Path {
-    case "/":
-        fmt.Println("hi")
+    case "/addpeer":
+        switch r.Method {
+        case http.MethodPost:
+            err := addpeer.AddPeer(requesthandler.AddPeerRequest(r.Body).Publickey)
+            if err != nil { fmt.Println(err) }
+        default:
+            http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+        }
+    case "/getprivkey":
+        switch r.Method {
+        case http.MethodGet:
+            s, _ := getprivkey.PrivateKeyRequest()
+            fmt.Println(string(s))
+        default:
+            http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+        }
     default:
         http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
     }
@@ -19,8 +35,6 @@ func (h HelloHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 type HelloHandler struct {}
 
 func main() {
-    err := addpeer.AddPeer("eeeeee")
-    if err != nil { log.Fatal(err) }
     http.Handle("/", &HelloHandler{})
 
     log.Fatal(http.ListenAndServe(":8080", nil))
