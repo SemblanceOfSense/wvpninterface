@@ -22,8 +22,9 @@ func (h HelloHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
     case "/getprivkey":
         switch r.Method {
         case http.MethodGet:
-            s, _ := getprivkey.PrivateKeyRequest()
-            fmt.Println(string(s))
+            s, err := getprivkey.PrivateKeyRequest()
+            if err != nil { fmt.Println(err) }
+            w.Write(s)
         default:
             http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
         }
