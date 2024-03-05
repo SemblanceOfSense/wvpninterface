@@ -3,6 +3,7 @@ package getpubkey
 import (
 	"encoding/json"
 	"os"
+    "strings"
 )
 
 type PublicKeyRequestStruct struct {
@@ -18,8 +19,8 @@ func PublicKeyRequest() ([]byte, error) {
     }
 
     p := string(body)
-    inputFmt:=p[:len(p)-1]
-    requstStruct.publickey = inputFmt
+    p = strings.TrimSuffix(p, "\n")
+    requstStruct.publickey = p
 
     j, err := json.Marshal(p)
     if err != nil { return make([]byte, 0), err }
