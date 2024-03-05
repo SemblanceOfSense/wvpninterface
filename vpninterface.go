@@ -19,7 +19,7 @@ func (h HelloHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
         default:
             http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
         }
-    case "/getprivkey":
+    case "/getpubkey":
         switch r.Method {
         case http.MethodGet:
             s, err := getpubkey.PublicKeyRequest()
