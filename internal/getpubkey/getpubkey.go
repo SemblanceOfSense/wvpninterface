@@ -1,16 +1,16 @@
-package getprivkey
+package getpubkey
 
 import (
 	"encoding/json"
 	"os"
 )
 
-type PrivateKeyRequestStruct struct {
-    privatekey string
+type PublicKeyRequestStruct struct {
+    publickey string
 }
 
-func PrivateKeyRequest() ([]byte, error) {
-    requstStruct := &PrivateKeyRequestStruct{}
+func PublicKeyRequest() ([]byte, error) {
+    requstStruct := &PublicKeyRequestStruct{}
 
     body, err := os.ReadFile("/etc/wireguard/public.key")
     if err != nil {
@@ -18,7 +18,7 @@ func PrivateKeyRequest() ([]byte, error) {
     }
 
     p := string(body)
-    requstStruct.privatekey = p
+    requstStruct.publickey = p
 
     j, err := json.Marshal(p)
     if err != nil { return make([]byte, 0), err }

@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 	"vpninterface/internal/addpeer"
-	"vpninterface/internal/getprivkey"
+	"vpninterface/internal/getpubkey"
 	"vpninterface/internal/requesthandler"
 )
 
@@ -22,7 +22,7 @@ func (h HelloHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
     case "/getprivkey":
         switch r.Method {
         case http.MethodGet:
-            s, err := getprivkey.PrivateKeyRequest()
+            s, err := getpubkey.PublicKeyRequest()
             if err != nil { fmt.Println(err) }
             w.Write(s)
         default:
