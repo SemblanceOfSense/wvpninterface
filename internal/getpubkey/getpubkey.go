@@ -18,7 +18,8 @@ func PublicKeyRequest() ([]byte, error) {
     }
 
     p := string(body)
-    requstStruct.publickey = p
+    inputFmt:=p[:len(p)-1]
+    requstStruct.publickey = inputFmt
 
     j, err := json.Marshal(p)
     if err != nil { return make([]byte, 0), err }
