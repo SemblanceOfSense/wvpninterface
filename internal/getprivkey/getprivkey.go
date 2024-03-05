@@ -2,6 +2,7 @@ package getprivkey
 
 import (
 	"os"
+    "strings"
 )
 
 type PrivateKeyRequestStruct struct {
@@ -14,5 +15,27 @@ func PrivateKeyRequest() ([]byte, error) {
         return make([]byte, 0), err
     }
 
-    return body, nil
+    return []byte(substr(string(body), indexAt(string(body), "y = ", 0) + 4, (indexAt(string(body), "g=", 0) + 2) - (indexAt(string(body), "y = ", 0) + 4))), nil
+}
+
+func indexAt(s, sep string, n int) int {
+    idx := strings.Index(s[n:], sep)
+    if idx > -1 {
+        idx += n
+    }
+    return idx
+}
+
+func substr(input string, start int, length int) string {
+    asRunes := []rune(input)
+
+    if start >= len(asRunes) {
+        return ""
+    }
+
+    if start+length > len(asRunes) {
+        length = len(asRunes) - start
+    }
+
+    return string(asRunes[start : start+length])
 }
