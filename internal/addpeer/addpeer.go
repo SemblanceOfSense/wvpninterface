@@ -2,7 +2,6 @@ package addpeer
 
 import (
     "os"
-    "fmt"
 )
 
 func AddPeer(publickey string) error {
