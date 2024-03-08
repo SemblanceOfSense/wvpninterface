@@ -18,5 +18,7 @@ func AddPeer(publickey string) error {
         return err
     }
 
+    cmd := exec.Command("sh", "/etc/netstart", "wg0")
+
     return nil
 }
